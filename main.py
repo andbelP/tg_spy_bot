@@ -55,6 +55,7 @@ class getOnlineState(StatesGroup):
     cmnd=State()
 b=1
 last_seen=1
+#function for scheduler
 async def checkOnline(msg,text):
     if(dict(list(getOnline(text))[0])['online']==1):
         last_seen=datetime.now()
@@ -79,7 +80,9 @@ async def send_result_online(msg:types.Message,state:FSMContext):
     text=msg.text
 
     await msg.answer('Отлично. Теперь, когда пользователь будет онлайн вы узнаете об этом',reply_markup=get_cancel())
+    #SCHEDULER's here
     scheduler.add_job(checkOnline,"interval",seconds=5,args=(msg,text))
+    #-------------
     await state.finish()
 
 
